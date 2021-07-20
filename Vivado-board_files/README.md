@@ -29,7 +29,7 @@ Daughter Cards provided by Aldec:
 -	[FMC-QSFP](https://www.aldec.com/en/products/emulation/daughter_cards/fmc_daughter/fmc_qsfp)
 -	[FMC-INDUSTRY](https://www.aldec.com/en/products/emulation/daughter_cards/fmc_daughter/fmc_industry)
 
-## Vivado - board definition files <a name="tysom_sdx_platforms"/>
+## Vivado - board definition files <a name="tysom_board_def_files"/>
 
 Vivado board definition files contain configuration of Processing System and interfaces available on the board to simplify using the Aldec TySOM board in Xilinx Vivado tool.
 
