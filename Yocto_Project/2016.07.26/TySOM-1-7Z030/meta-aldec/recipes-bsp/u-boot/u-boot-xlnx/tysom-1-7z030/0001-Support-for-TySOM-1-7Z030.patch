@@ -1,0 +1,142 @@
+From f046c30063e107b4b4e13f550bc5503325c7ba3a Mon Sep 17 00:00:00 2001
+From: Piotr Czak <piotrc@aldec.com>
+Date: Tue, 26 Jul 2016 12:56:42 +0200
+Subject: [PATCH] Support for TySOM-1-7Z030
+
+---
+ arch/arm/dts/Makefile                |  3 ++-
+ arch/arm/mach-zynq/Kconfig           |  5 +++++
+ configs/zynq_tysom_1_7z030_defconfig | 32 ++++++++++++++++++++++++++++++++
+ include/configs/zynq-common.h        |  2 +-
+ include/configs/zynq_tysom_1_7z030.h | 31 +++++++++++++++++++++++++++++++
+ 5 files changed, 71 insertions(+), 2 deletions(-)
+ create mode 100644 configs/zynq_tysom_1_7z030_defconfig
+ create mode 100644 include/configs/zynq_tysom_1_7z030.h
+
+diff --git a/arch/arm/dts/Makefile b/arch/arm/dts/Makefile
+index d61e98f..e353902 100644
+--- a/arch/arm/dts/Makefile
++++ b/arch/arm/dts/Makefile
+@@ -76,7 +76,8 @@ dtb-$(CONFIG_ARCH_ZYNQ) += zynq-zc702.dtb \
+ 	zynq-zc770-xm010.dtb \
+ 	zynq-zc770-xm011.dtb \
+ 	zynq-zc770-xm012.dtb \
+-	zynq-zc770-xm013.dtb
++	zynq-zc770-xm013.dtb \
++	zynq-tysom-1-7z030.dtb
+ dtb-$(CONFIG_ARCH_ZYNQMP) += \
+ 	zynqmp-ep108.dtb			\
+ 	zynqmp-zcu102.dtb			\
+diff --git a/arch/arm/mach-zynq/Kconfig b/arch/arm/mach-zynq/Kconfig
+index 339e464..39ef624 100644
+--- a/arch/arm/mach-zynq/Kconfig
++++ b/arch/arm/mach-zynq/Kconfig
+@@ -46,6 +46,10 @@ config TARGET_ZYNQ_CC108
+ 	bool "Zynq CC108 Board"
+ 	select ZYNQ_CUSTOM_INIT
+ 
++config TARGET_ZYNQ_TYSOM_1_7Z030
++	bool "Zynq TySOM-1-7Z030 Board"
++	select ZYNQ_CUSTOM_INIT
++
+ endchoice
+ 
+ config SYS_BOARD
+@@ -67,5 +71,6 @@ config SYS_CONFIG_NAME
+ 	default "zynq_cse" if TARGET_ZYNQ_CSE
+ 	default "zynq_afx" if TARGET_ZYNQ_AFX
+ 	default "zynq_cc108" if TARGET_ZYNQ_CC108
++	default "zynq_tysom_1_7z030" if TARGET_ZYNQ_TYSOM_1_7Z030
+ 
+ endif
+diff --git a/configs/zynq_tysom_1_7z030_defconfig b/configs/zynq_tysom_1_7z030_defconfig
+new file mode 100644
+index 0000000..0416dcc
+--- /dev/null
++++ b/configs/zynq_tysom_1_7z030_defconfig
+@@ -0,0 +1,32 @@
++CONFIG_ARM=y
++CONFIG_ARCH_ZYNQ=y
++CONFIG_TARGET_ZYNQ_TYSOM_1_7Z030=y
++CONFIG_DEFAULT_DEVICE_TREE="zynq-tysom-1-7z030"
++CONFIG_SPL=y
++CONFIG_FIT=y
++CONFIG_FIT_VERBOSE=y
++CONFIG_FIT_SIGNATURE=y
++CONFIG_SYS_PROMPT="TySOM> "
++# CONFIG_CMD_IMLS is not set
++# CONFIG_CMD_FLASH is not set
++CONFIG_CMD_GPIO=y
++# CONFIG_CMD_SETEXPR is not set
++CONFIG_OF_EMBED=y
++CONFIG_NET_RANDOM_ETHADDR=y
++CONFIG_SPL_DM_SEQ_ALIAS=y
++CONFIG_SPI_FLASH=y
++CONFIG_SPI_FLASH_BAR=y
++CONFIG_SPI_FLASH_ISSI=y
++CONFIG_SPI_FLASH_MACRONIX=y
++CONFIG_SPI_FLASH_SPANSION=y
++CONFIG_SPI_FLASH_STMICRO=y
++CONFIG_SPI_FLASH_WINBOND=y
++CONFIG_ZYNQ_GEM=y
++CONFIG_DEBUG_UART=y
++CONFIG_DEBUG_UART_ZYNQ=y
++CONFIG_DEBUG_UART_BASE=0xe0001000
++CONFIG_DEBUG_UART_CLOCK=50000000
++CONFIG_ZYNQ_QSPI=y
++CONFIG_SYS_MALLOC_F=y
++CONFIG_SYS_MALLOC_F_LEN=0x400
++
+diff --git a/include/configs/zynq-common.h b/include/configs/zynq-common.h
+index 7c7195c..5f0e129 100644
+--- a/include/configs/zynq-common.h
++++ b/include/configs/zynq-common.h
+@@ -340,7 +340,7 @@
+ #else
+ #define CONFIG_BOOTCOMMAND		"run $modeboot"
+ #endif
+-#define CONFIG_BOOTDELAY		3 /* -1 to Disable autoboot */
++#define CONFIG_BOOTDELAY		-2 /* -1 to Disable autoboot */
+ #define CONFIG_SYS_LOAD_ADDR		0 /* default? */
+ 
+ /* Miscellaneous configurable options */
+diff --git a/include/configs/zynq_tysom_1_7z030.h b/include/configs/zynq_tysom_1_7z030.h
+new file mode 100644
+index 0000000..05993cd
+--- /dev/null
++++ b/include/configs/zynq_tysom_1_7z030.h
+@@ -0,0 +1,31 @@
++/*
++ * (C) Copyright 2016 Aldec, Inc.
++ *
++ * Configuration settings for the Aldec TySOM-1-7Z030 boards
++ * See zynq-common.h for Zynq common configs
++ *
++ * SPDX-License-Identifier:	GPL-2.0+
++ */
++
++#ifndef __CONFIG_ZYNQ_TYSOM_1_7Z030_H
++#define __CONFIG_ZYNQ_TYSOM_1_7Z030_H
++
++#define CONFIG_SYS_SDRAM_SIZE		(1024 * 1024 * 1024)
++#define CONFIG_ZYNQ_SERIAL_UART1
++#define CONFIG_ZYNQ_GEM0
++#define CONFIG_ZYNQ_GEM_PHY_ADDR0	0x1f
++#define CONFIG_SYS_NO_FLASH
++
++#define CONFIG_ZYNQ_SDHCI0
++#define CONFIG_ZYNQ_USB
++#define CONFIG_ZYNQ_I2C0
++#define CONFIG_ZYNQ_QSPI
++#define CONFIG_ZYNQ_EEPROM
++#define CONFIG_ZYNQ_BOOT_FREEBSD
++
++/* Define PS Clock Frequency to 50MHz */
++#define CONFIG_ZYNQ_PS_CLK_FREQ	50000000UL
++
++#include <configs/zynq-common.h>
++
++#endif /* __CONFIG_ZYNQ_TYSOM_1_7Z030_H */
+-- 
+2.5.5
+

@@ -1,0 +1,24 @@
+From 92547f27aae348b79232939ad54a3b5629c8a174 Mon Sep 17 00:00:00 2001
+From: Piotr Czak <piotrc@aldec.com>
+Date: Fri, 1 Jul 2016 15:17:00 +0200
+Subject: [PATCH] fix simple card
+
+---
+ sound/soc/generic/simple-card.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/sound/soc/generic/simple-card.c b/sound/soc/generic/simple-card.c
+index 54c3320..e26bf8a 100644
+--- a/sound/soc/generic/simple-card.c
++++ b/sound/soc/generic/simple-card.c
+@@ -100,6 +100,7 @@ static int asoc_simple_card_hw_params(struct snd_pcm_substream *substream,
+ 		if (ret && ret != -ENOTSUPP)
+ 			goto err;
+ 	}
++	return 0;
+ 
+ err:
+ 	return ret;
+-- 
+2.5.5
+
